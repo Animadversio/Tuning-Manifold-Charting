@@ -46,7 +46,6 @@ PC3_ang_step = 180 / (imgN_per_arc-1);
 for spi = 1:numel(basis_col)
 basis = basis_col{spi};
 basis = [PC1_sign; 1; 1] .* basis';
-% basis = [PC1_sign; 1; 1] .* PC_vectors(:, 1:3)';
 fprintf("Generating images on %s sphere (radius = %.1f)\n", space_str(spi), sphere_norm)
 img_list = {};
 for j = -5:5
@@ -65,7 +64,6 @@ for j = -5:5
 end
 mtg = imtile(img_list,'GridSize',[11,11], 'BorderSize',4,'ThumbnailSize',[256,256]);
 imwrite(mtg,fullfile(backup_dir,compose("Norm%d_%s_Montage.png",sphere_norm,space_shortstr(spi))));
-% fig1 = utils.visualize_img_list(img_list)
 end
 save(fullfile(newimg_dir, "PC_vector_data.mat"), ...
     "PC_vectors", "rand_vec2", "sphere_norm", "PC2_ang_step", "PC3_ang_step");
