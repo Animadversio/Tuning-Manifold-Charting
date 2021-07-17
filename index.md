@@ -1,12 +1,11 @@
-# Tuning Manifold Charting: the Official Code Base for the Paper 
+# Tuning Manifold Charting: the Official Code Base for the Paper: 
 
 
 ## Dataset Structure
-Our formatted reduced dataset is stored in `.mat` format as a structure array, which can be accessed from Matlab or Python. 
+Our formatted and reduced dataset is stored in `.mat` format as a structure array, which can be accessed from Matlab or Python. 
 
-Each experimental session has one struct corresponding to Evolution, and one struct corresponding to Manifold experiment. 
-
-
+* Each experimental session has one struct corresponding to Evolution, and one struct corresponding to Manifold experiment. 
+* Array is organized in the order of experiment time for each monkey. 
 
 ## Code Structure
 Our analysis code is written in Matlab and Python. Matlab for most statistical analysis, Python esp. pytorch for the *in silico* experiment and modelling.
@@ -14,7 +13,7 @@ Our analysis code is written in Matlab and Python. Matlab for most statistical a
 ### Statistical Analysis 
 * Evolution trajectory, successfulness, best generation. 
 * Tuning Map, basic stats (ANOVA, F).
-* Kent fitting of tuning map, extract Kent parameters, population analysis of Kent parameter. 
+* Kent function fitting of tuning map, extract Kent parameters, population analysis of Kent parameter. 
 * Radial Tuning curve, AUC for tuning curve. 
 * Non-parametric statistics
     * Volume under the Surface (VUS). 
@@ -22,7 +21,7 @@ Our analysis code is written in Matlab and Python. Matlab for most statistical a
 ### Plotting 
 * -> Figure 2B
 * -> Figure 2C
-* 
+* Plot tuning maps in the same configuration as the electrode array. (Figure 5)
 
 
 ### Jekyll Themes
