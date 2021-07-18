@@ -14,7 +14,7 @@ Our code is written in Matlab and Python. Matlab for most statistical analysis o
 We curated a library of deep neural nets classes to use in our analysis, some implemented in matlab, some interfaced with pytorch implementation. These classes are used both in online experiments and analysis. 
 
 ### Black box optimization algorithms `optimizers`
-We open source our adaption of ``Cholesky-CMA-ES` optimization algorithms, and the `ZOHA_Sphere` algorithms for the constrained optimization on the hyper-surface of a sphere. 
+We open source our adaption of `Cholesky-CMA-ES` optimization algorithms, and the `ZOHA_Sphere` algorithms for the constrained optimization on the hyper-surface of a sphere. 
 
 Test and demo code, to be added. 
 
@@ -25,10 +25,11 @@ Our experiments are controlled by custom Matlab script using Monkeylogic, with t
 * Receptive field mapping. 
 * Evolution trajectory, successfulness, best generation. 
 * Single Tuning Map Characterization
-	* Tuning Map, basic stats (ANOVA, F statistics).
+	* Tuning Map, basic stats (ANOVA, F statistics).(`calc_tune_stats`)
 	* Kent function fitting of tuning map, extract Kent parameters. (`analysis\Kent_func`)
 	* Non-parametric statistics of tuning maps: Volume under the Surface (VUS), Peak location
-	* Population analysis `Manif_Map_Stat_Pop_Synopsis.m`
+	* Dirichlet energy of tuning map as measure of smoothness. 
+	* Population analysis: across areas, SU-MU pair `Manif_Map_Stat_Pop_Synopsis.m`
 * Radial Tuning Curve analysis
 	* Image distance matrix using LPIPS and various image distance measure.
 	* Radial Tuning curve over several different spaces; AUC for tuning curve. 
@@ -36,6 +37,7 @@ Our experiments are controlled by custom Matlab script using Monkeylogic, with t
 	* Geometry of electrode organization. 
 	* Measuring tuning map similarity by functional correlation on manifold
 	* Tuning map similarity as a function to cortical distance 
+* Naive Bayes Decoding
 
 ### Plotting `visualization`
 Some of our specialized plotting function
