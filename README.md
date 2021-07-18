@@ -24,13 +24,18 @@ Our experiments are controlled by custom Matlab script using Monkeylogic, with t
 ### Statistical Analysis `analysis`
 * Receptive field mapping. 
 * Evolution trajectory, successfulness, best generation. 
-* Tuning Map, basic stats (ANOVA, F statistics).
-* Kent function fitting of tuning map, extract Kent parameters, population analysis of Kent parameter. (`analysis\Kent_func`)
-* Image distance matrix measurement using LPIPS. 
-* Radial Tuning curve, AUC for tuning curve. 
-* Non-parametric statistics of tuning maps: Volume under the Surface (VUS), Peak location
-* Measuring tuning map similarity by functional correlation on manifold
-* Tuning map similarity as a function to cortical distance 
+* Single Tuning Map Characterization
+	* Tuning Map, basic stats (ANOVA, F statistics).
+	* Kent function fitting of tuning map, extract Kent parameters. (`analysis\Kent_func`)
+	* Non-parametric statistics of tuning maps: Volume under the Surface (VUS), Peak location
+	* Population analysis `Manif_Map_Stat_Pop_Synopsis.m`
+* Radial Tuning Curve analysis
+	* Image distance matrix using LPIPS and various image distance measure.
+	* Radial Tuning curve over several different spaces; AUC for tuning curve. 
+* Tuning Map Similarity
+	* Geometry of electrode organization. 
+	* Measuring tuning map similarity by functional correlation on manifold
+	* Tuning map similarity as a function to cortical distance 
 
 ### Plotting `visualization`
 Some of our specialized plotting function
