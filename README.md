@@ -23,21 +23,29 @@ Our experiments are controlled by custom Matlab script using Monkeylogic, with t
 
 ### Statistical Analysis `analysis`
 * Receptive field mapping. 
-* Evolution trajectory, successfulness, best generation. 
+* Evolution trajectory analysis 
+	* Successfulness.
+	* Coordinate of the best generation. 
+	* Convergence speed. 
 * Single Tuning Map Characterization
 	* Tuning Map, basic stats (ANOVA, F statistics).(`calc_tune_stats`)
 	* Kent function fitting of tuning map, extract Kent parameters. (`analysis\Kent_func`)
 	* Non-parametric statistics of tuning maps: Volume under the Surface (VUS), Peak location
 	* Dirichlet energy of tuning map as measure of smoothness. 
-	* Population analysis: across areas, SU-MU pair `Manif_Map_Stat_Pop_Synopsis.m`
+	* Population analysis: across areas, SU-MU pair `Manif_Map_Stat_Pop_Synopsis.m`, `Manif_Map_SUMU_cmp.m`
 * Radial Tuning Curve analysis
 	* Image distance matrix using LPIPS and various image distance measure.
 	* Radial Tuning curve over several different spaces; AUC for tuning curve. 
-* Tuning Map Similarity
-	* Geometry of electrode organization. 
+* Tuning Map Similarity 
+	* Geometry of electrode organization. `Extract_Channel_Organization.m`, `spikeID2cortexDist`
 	* Measuring tuning map similarity by functional correlation on manifold
-	* Tuning map similarity as a function to cortical distance 
+	* Tuning map similarity as a function to cortical distance `Manif_Map_SpatialRelation.m`
+	* Tuning map similarity of SU-MU pairs `Manif_Map_SUMU_corr.m`
 * Naive Bayes Decoding
+* Evolution trajectory comparison in Full space vs 50dim space
+* Relationship between Evolution trajectory and Manifold tuning
+	* Peak location
+	* Sharpness 
 
 ### Plotting `visualization`
 Some of our specialized plotting function
