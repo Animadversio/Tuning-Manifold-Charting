@@ -1,5 +1,11 @@
 # Tuning Manifold Charting: the Official Code Base for the Manifold Paper: 
 
+## Data Processing Flow Chart
+
+
+
+![](Data_Processing_Flowchart-01.png)
+
 
 ## Dataset Structure
 Our formatted and reduced neural dataset is stored in `.mat` format as a structure array, which can be accessed from Matlab or Python. 
