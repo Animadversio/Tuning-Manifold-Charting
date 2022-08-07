@@ -11,9 +11,9 @@ Our formatted and reduced neural dataset is stored in `.mat` format as a structu
 * Each experimental session has one `struct` corresponding to Evolution, and one struct corresponding to Manifold experiment. 
 * Array is organized in the order of experiment time for each monkey. 
 
-We provide download links for these formatted data in `data` subfolder. 
+We provide download links for these formatted data in `matdata` subfolder. 
 
-Some analyses require access to the image data folder, which will be hosted and downloadable online. 
+Some analyses require access to the image data folder (16Gb), which will be hosted and downloadable online. 
 
 ## Code Structure
 Our code is written in Matlab and Python. Matlab for experimental control, most statistical analysis of *in vivo* data, while Python esp. pytorch for the *in silico* experiment and modelling.
@@ -58,6 +58,7 @@ Our experiments are controlled by custom Matlab script using Monkeylogic, with t
 	* Tuning map similarity as a function to cortical distance `Manif_Map_SpatialRelation.m`
 	* Tuning map similarity of SU-MU pairs `Manif_Map_SUMU_corr.m`
 * Naive Bayes Decoding
+	* Decode coordinate on the spherical manifold with population response. (`analysis\naiveBayes`)
 
 ### Plotting `visualization`
 Some of our specialized plotting function
@@ -69,5 +70,6 @@ Some of our specialized plotting function
 
 Other more generic plotting functions (inspired by `Seaborn` library in Python)
 * Violin plot (wrap around [Violinplot-Matlab](https://github.com/bastibe/Violinplot-Matlab))
-* Paired stripe plots, stripe plots with masks. 
+* Paired stripe plots, stripe plots with masks. (`analysis\stats_plot`)
+
 
