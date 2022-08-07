@@ -1,8 +1,6 @@
-# Tuning Manifold Charting: the Official Code Base for the Manifold Paper: 
+# Tuning Manifold Charting: the Official Code Base for the Manifold Paper: "the Tuning Landscape of the Ventral Stream", 2022 Cell Reports
 
 ## Data Processing Flow Chart
-
-
 
 ![](Data_Processing_Flowchart-01.png)
 
@@ -10,7 +8,7 @@
 ## Dataset Structure
 Our formatted and reduced neural dataset is stored in `.mat` format as a structure array, which can be accessed from Matlab or Python. 
 
-* Each experimental session has one struct corresponding to Evolution, and one struct corresponding to Manifold experiment. 
+* Each experimental session has one `struct` corresponding to Evolution, and one struct corresponding to Manifold experiment. 
 * Array is organized in the order of experiment time for each monkey. 
 
 We provide download links for these formatted data in `data` subfolder. 
@@ -26,7 +24,7 @@ We curated a library of deep neural nets classes to use in our analysis, some im
 * Weight for our matlab implementation of FC6GAN is hosted in xxxx.
 
 ### Black box optimization algorithms `optimizers`
-We open source our adaption of `Cholesky-CMA-ES` optimization algorithms, and the `ZOHA_Sphere` algorithms for the constrained optimization on the hyper-surface of a sphere. 
+We open source our adaption of `Cholesky-CMA-ES` optimization algorithms, and the `ZOHA_Sphere` algorithms for the constrained optimization on the hyper-surface of a hyper-sphere. The description and characterization of both optimizers were detailed in [our paper](https://dl.acm.org/doi/abs/10.1145/3512290.3528725) and [repo](https://github.com/Animadversio/ActMax-Optimizer-Dev). 
 
 Test and demo code, to be added. 
 
