@@ -1,6 +1,14 @@
 function Manif_Map_show_fun(MapVarStats, Animal, Expi, chan2plot, figh)
+% Load data from `MapVarStats` and show an montage of heatmap plots for `chan2plot` 
+% Heatmap plot without the image inset in it. 
+% 
+% Parameters:
+%   MapVarStats:  collected Stats from `Manif_MapVarSmooth_Stat.m`
+%   Animal: used to generate label string
+%   Expi:   # of exp, used to fetch data. 
+%   chan2plot: array of channels to show on the figure.
 if nargin < 5
-    figh = 3;
+    figh = figure();
 end
 figure(figh); clf; set(figh,'pos',[ 805         197        1559         781]); % all manifold images montaged
 set(0,'CurrentFigure',figh); clf;T=tiledlayout('flow','tilesp','compact','padd','compact');
