@@ -1,7 +1,7 @@
 %% Manifold paper: Reduced Dimension Evolution vs Full space Evolution
 %% Summary statistics plot: 
 %      Load summary statistics for trajectories and plot them.
-%  Replicate Analysis from Table and Stats
+%  Loading Analysis from Table and Stats
 global figdir
 figdir = "O:\Evol_ReducDim\summary";
 ExpType = "RDEvol";
