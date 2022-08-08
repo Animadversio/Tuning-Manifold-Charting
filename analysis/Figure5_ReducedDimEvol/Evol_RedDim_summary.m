@@ -2,8 +2,8 @@
 %  See if the Evolution works
 %%
 Animal = "Alfa"; Set_Path;
-MatStats_path = "E:\OneDrive - Washington University in St. Louis\Mat_Statistics";
-load(fullfile(MatStats_path, Animal+"_RDEvol_stats.mat"), 'RDStats')
+mat_dir = "E:\OneDrive - Washington University in St. Louis\Mat_Statistics";
+load(fullfile(mat_dir, Animal+"_RDEvol_stats.mat"), 'RDStats')
 %% summary stats
 ExpType = "RDEvol";
 for Expi = 1:length(RDStats)

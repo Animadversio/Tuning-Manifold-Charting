@@ -1,7 +1,8 @@
+%% Manifold paper: Reduced Dimension Evolution vs Full space Evolution
 % Create Animation for Dual evolution in Reduced Dimension Evolution
-Animal = "Beto";
-MatStats_path = "E:\OneDrive - Washington University in St. Louis\Mat_Statistics";
-load(fullfile(MatStats_path, Animal+"_RDEvol_stats.mat"), 'RDStats')
+Animal = "Beto";Set_Path;
+mat_dir = "O:\Mat_Statistics";
+load(fullfile(mat_dir, Animal+"_RDEvol_stats.mat"), 'RDStats')
 %% 
 ExpType = "RDEvol";
 for Expi = 24:length(RDStats)

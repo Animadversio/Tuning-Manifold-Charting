@@ -8,6 +8,7 @@
 Animal = "Both"; Set_Path;
 global figdir
 figdir = "O:\Evol_ReducDim\summary";
+
 ExpType = "RDEvol";
 if strcmp(Animal,"Both") % load stats
 A = load(fullfile(matdir, "Alfa"+"_RDEvol_stats.mat"), 'RDStats');
@@ -17,6 +18,7 @@ else
 load(fullfile(matdir, Animal+"_RDEvol_stats.mat"), 'RDStats')
 end
 Corder = colororder; % default color seq
+
 %% 
 RDEvol_Stats = []; % struct list, higher level summary, easy for plotting and testing.
 unitnum_arr = zeros(length(RDStats),1);
@@ -88,14 +90,15 @@ end
 RDEvol_Stats = [RDEvol_Stats, S];
 end
 RDEvolTab = struct2table(RDEvol_Stats);
-%% Collect stats and save
+%% save the collected stats as mat and csv
 writetable(RDEvolTab, fullfile(figdir, Animal+"_RDEvol_trajcmp.csv"))
 save(fullfile(figdir, Animal+"_RDEvol_summaryStats.mat"), "RDEvol_Stats")
 
-%% Newer API verions
+%% Newer API verions: Process the collected data from all the experiment pairs. 
 [score_m_traj_col, block_traj_col, score_m_traj_extrap_col, block_traj_extrap_col, ...
    extrap_mask_col, sucsmsk_end, sucsmsk_max, tval_end_arr, pval_end_arr, tval_max_arr, pval_max_arr] =...
    optim_traj_process(block_traces, score_traces, ["Full", "50D"], "max12", 55);
+
 %%
 figdir = "O:\Evol_ReducDim\summary";
 outdir = "O:\Manuscript_Manifold\Figure3\RedDimEffectProg";
@@ -109,9 +112,11 @@ Amsk = anim_arr=="Alfa";
 Bmsk = anim_arr=="Beto";
 anysucsmsk = any(RDEvolTab.t_p_succ<0.01,2);
 allsucsmsk = all(RDEvolTab.t_p_succ<0.01,2);
+
 %%
 figh = optim_traj_compare_tileplot(score_m_traj_extrap_col, block_traj_extrap_col, extrap_mask_col, ...
 	{V1msk&sucsmsk_end,V4msk&sucsmsk_end,ITmsk&sucsmsk_end}, ["V1","V4","IT"], {}, [], ["Full", "50D"], true);
+
 %%
 [figh,T] = optim_traj_compare_tileplot(score_m_traj_extrap_col, block_traj_extrap_col, extrap_mask_col, ...
    {V1msk&sucsmsk_end,V4msk&sucsmsk_end,ITmsk&sucsmsk_end}, ["V1","V4","IT"], {Amsk,Bmsk}, ["Alfa","Beto"], ["Full", "50D"], true);
@@ -119,13 +124,16 @@ title(T, "Reduced Dimension Evolution Trajectory Comparison (End gen success P<0
 saveallform([figdir,outdir],"Both_MaxNorm_extrapSmth_windiv_NOYLIM",figh,["png","pdf"])
 for i=1:6,nexttile(T,i);ylim([0,1]);end
 saveallform([figdir,outdir],"Both_MaxNorm_extrapSmth_windiv",figh,["png","pdf"])
+
 %%
 [figh,T] = optim_traj_compare_tileplot(score_m_traj_extrap_col, block_traj_extrap_col, extrap_mask_col, ...
    {V1msk&sucsmsk_end,V4msk&sucsmsk_end,ITmsk&sucsmsk_end}, ["V1","V4","IT"], {Amsk,Bmsk}, ["Alfa","Beto"], ["Full", "50D"], false);
 title(T, "Reduced Dimension Evolution Trajectory Comparison (End gen success P<0.01)")
 saveallform([figdir,outdir],"Both_MaxNorm_extrapSmth",figh,["png","pdf"])
+
+
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Trajectory Summary plot: 
+%% Older API Trajectory Summary plot: 
 %% Re-normalize the trajectories to show together.
 score_C_m_trajs = {};
 score_G_m_trajs = {};
@@ -340,76 +348,6 @@ for mski=1:3
 end
 saveallform(figdir,fignm+"_Xlim");
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Summary statistics plot: Load summary statistics for trajectories and plot them.
-%  Replicate Analysis from Table and Stats
-figdir = "E:\OneDrive - Washington University in St. Louis\Evol_ReducDim\summary";
-ExpType = "RDEvol";
-Animal = "Both";
-load(fullfile(figdir, Animal+"_RDEvol_summaryStats.mat"), "RDEvol_Stats")
-RDEvolTab = readtable(fullfile(figdir, Animal+"_RDEvol_trajcmp.csv"));
-%% Masks for testing 
-validmsk = ones(numel(RDStats), 1, 'logical');
-for iTr=1:numel(RDStats)
-if ~all(RDStats(iTr).evol.optim_names == ["ZOHA Sphere lr euclid", "ZOHA Sphere lr euclid ReducDim"])
-validmsk(iTr) = false;
-end
-end
-anysucsmsk = any(RDEvolTab.t_p_succ<0.01,2);
-allsucsmsk = all(RDEvolTab.t_p_succ<0.01,2);
-
-Alfamsk = (RDEvolTab.Animal=="Alfa");
-Betomsk = (RDEvolTab.Animal=="Beto");
-V1msk = (RDEvolTab.pref_chan<=48 & RDEvolTab.pref_chan>=33);
-V4msk = (RDEvolTab.pref_chan>48);
-ITmsk = (RDEvolTab.pref_chan<33);
-%% Test on individual Session and Collect T stats on population
-%% Test on the aggregated mean value at population level with a T test. 
-diary(fullfile(figdir,"progression_summary.log"))
-msk = validmsk&anysucsmsk;%validmsk
-fprintf("Inclusion criterion: Use the right Optimizer pair and any of the two threads succeed.\n")
-testProgression(RDEvolTab, "Dpr_int_norm", {V1msk&msk, V4msk&msk, ITmsk&msk}, ["V1","V4","IT"], "area", ...
-    "Both Monk All Exp");
-testProgression(RDEvolTab, "middle_cmp_dpr", {V1msk&msk, V4msk&msk, ITmsk&msk}, ["V1","V4","IT"], "area", ...
-    "Both Monk All Exp");
-testProgression(RDEvolTab, "last23_cmp_dpr", {V1msk&msk, V4msk&msk, ITmsk&msk}, ["V1","V4","IT"], "area", ...
-    "Both Monk All Exp");
-testProgression(RDEvolTab, "last23_m_ratio", {V1msk&msk, V4msk&msk, ITmsk&msk}, ["V1","V4","IT"], "area", ...
-    "Both Monk All Exp");
-testProgression(RDEvolTab, "middle_m_ratio", {V1msk&msk, V4msk&msk, ITmsk&msk}, ["V1","V4","IT"], "area", ...
-    "Both Monk All Exp");
-testProgression(RDEvolTab, "traj_int_ratio", {V1msk&msk, V4msk&msk, ITmsk&msk}, ["V1","V4","IT"], "area", ...
-    "Both Monk All Exp");
-
-diary off
-
-%% Statistics Separate by Area. 
-h = stripe_plot(RDEvolTab, "last23_m_ratio", {V1msk&validmsk, V4msk&validmsk, ITmsk&validmsk}, ["V1","V4","IT"], ...
-                    "Both Monk All Exp", "area_sep", {[1,2],[2,3],[1,3]},'MarkerEdgeAlpha',0.9);
-%
-h = stripe_plot(RDEvolTab, "last23_cmp_dpr", {V1msk&validmsk, V4msk&validmsk, ITmsk&validmsk}, ["V1","V4","IT"], ...
-                    "Both Monk All Exp", "area_sep", {[1,2],[2,3],[1,3]},'MarkerEdgeAlpha',0.9);
-%
-h = stripe_plot(RDEvolTab, "Dpr_int_norm", {V1msk&validmsk, V4msk&validmsk, ITmsk&validmsk}, ["V1","V4","IT"], ...
-                    "Both Monk All Exp", "area_sep", {[1,2],[2,3],[1,3]},'MarkerEdgeAlpha',0.9);
-%%
-
-h = stripe_minor_plot(RDEvolTab, "last23_cmp_dpr", {V1msk&validmsk, V4msk&validmsk, ITmsk&validmsk}, ["V1","V4","IT"], ...
-    {Alfamsk, Betomsk}, ["Alfa", "Beto"], "Both Monk All Exp", "area_anim_sep", {[1,2],[2,3],[1,3]}, 'marker','MarkerEdgeAlpha',0.9);                
-
-%% Statistics Separate by Area and Animal. 
-msk = validmsk&anysucsmsk;%validmsk
-h = stripe_minor_plot(RDEvolTab, "last23_cmp_dpr", {V1msk&msk, V4msk&msk, ITmsk&msk}, ["V1","V4","IT"], ...
-                    {Alfamsk, Betomsk}, ["Alfa", "Beto"], "Both Monk All Exp (Any success)", "area_anim_sep_anysucs", {[1,2],[2,3],[1,3]}, 'marker','MarkerEdgeAlpha',0.9);                
-
-h = stripe_minor_plot(RDEvolTab, "Dpr_int_norm", {V1msk&msk, V4msk&msk, ITmsk&msk}, ["V1","V4","IT"], ...
-                   {Alfamsk, Betomsk}, ["Alfa", "Beto"], "Both Monk All Exp (Any success)", "area_anim_sep_anysucs", {[1,2],[2,3],[1,3]}, 'marker', 'MarkerEdgeAlpha',0.9);
-
-h = stripe_minor_plot(RDEvolTab, "traj_int_ratio", {V1msk&msk, V4msk&msk, ITmsk&msk}, ["V1","V4","IT"], ...
-                   {Alfamsk, Betomsk}, ["Alfa", "Beto"], "Both Monk All Exp (Any success)", "area_anim_sep_anysucs", {[1,2],[2,3],[1,3]}, 'marker', 'MarkerEdgeAlpha',0.9);
-
-h = stripe_minor_plot(RDEvolTab, "last23_m_ratio", {V1msk&msk, V4msk&msk, ITmsk&msk}, ["V1","V4","IT"], ...
-                    {Alfamsk, Betomsk}, ["Alfa", "Beto"], "Both Monk All Exp (Any success)", "area_anim_sep_anysucs", {[1,2],[2,3],[1,3]}, 'marker','MarkerEdgeAlpha',0.9);                
 
 %%
 % score2cmp = score_vec_col(:,2:3);
@@ -509,29 +447,3 @@ scoreM = mean(score_all_vec);
 scoreS = std(score_all_vec);
 zscore_vec_col = cellfun(@(vec)(vec-scoreM) / scoreS, score_vec_col, 'uni', 0);
 end
-
-% function [score_m,score_s,blockvec] = sort_scoreblock(blockarr,scorearr)
-% % sort an array of scores according to the block array labels. compute the
-% % mean and std for each block. 
-% % really useful function to summarize multiple evolution trajectories into
-% % a mean one. 
-% blockvec = min(blockarr):max(blockarr);
-% score_m = [];score_s = [];
-% for blocki = min(blockarr):max(blockarr)
-%     score_m(blocki) = mean(scorearr(blockarr==blocki));
-%     score_s(blocki) = sem(scorearr(blockarr==blocki));
-% end
-% end
-% % 
-% function saveallform(figdir,fignm,h,sfxlist)
-% % Save a (current) figure with all suffices in a figdir. 
-% if nargin <=3, h=gcf; end
-% if nargin <=4, sfxlist = ["fig","pdf","png"]; end
-% for sfx = sfxlist
-% if strcmp(sfx, "fig")
-%    savefig(h,fullfile(figdir,fignm+"."+sfx))
-% else
-%    saveas(h,fullfile(figdir,fignm+"."+sfx))
-% end
-% end
-% end
