@@ -1,9 +1,13 @@
 # Tuning Manifold Charting: the Official Code Base for the Manifold Paper: "the Tuning Landscape of the Ventral Stream", 2022 Cell Reports
 
+Explore the dataset in Colab notebook!
+* General walk through of Evolution and Manifold data. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VcCur_5hsHWYGR3dbS4LWy9HvbqqVOk8?usp=sharing)
+* Visualizing population activity 
+* Interpret Evolution using Deep Factor Modelling. 
+
 ## Data Processing Flow Chart
 
 ![](Data_Processing_Flowchart-01.png)
-
 
 ## Dataset Structure
 Our formatted and reduced neural dataset is stored in `.mat` format as a structure array, which can be accessed from Matlab or Python. 
