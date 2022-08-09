@@ -1,4 +1,4 @@
-%% Manifold paper Supplementary
+%% Manifold paper Supplementary SU MU comparison 
 % Compare non parametric statistics for SU and MU esp. activation heights, normVUS tuning width
 Set_Path;
 mat_dir = "O:\Mat_Statistics";

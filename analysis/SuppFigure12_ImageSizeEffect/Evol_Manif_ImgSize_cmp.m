@@ -1,4 +1,6 @@
-%% Target analysis and comparison of 1deg and 3deg images. 
+%%  Manifold paper Supplementary Figure 12 
+% Target analysis and comparison of 1 deg and 3deg images for evolution and manifold
+% with the same channel as driver. 
 Animal = "Beto";
 Set_Path;
 mat_dir = "O:\Mat_Statistics"; 
