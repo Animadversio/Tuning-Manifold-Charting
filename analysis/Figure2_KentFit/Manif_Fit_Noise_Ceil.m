@@ -62,21 +62,10 @@ end
 %%
 summarize_masks_print(tab, "expvar", msk_col, lab_col, {drivertab.F_P<0.001},["Fsig"]);
 %% 
-drivertab = readtable(fullfile(tabdir,"Both_Exp_Driver_KentStat_bsl_pole.csv"),'Format','auto');
 %% Load up Kent Stats and get the table containing the drivers. 
-load(fullfile(mat_dir,"Alfa"+"_Evol_stats.mat"),'EStats')
-EStats_all.Alfa = EStats;
-load(fullfile(mat_dir,"Beto"+"_Evol_stats.mat"),'EStats')
-EStats_all.Beto = EStats;
-alfatab_pop = readtable(fullfile(tabdir,"Alfa_Exp_all_KentStat_bsl_pole.csv"),'Format','auto');
-betotab_pop = readtable(fullfile(tabdir,"Beto_Exp_all_KentStat_bsl_pole.csv"),'Format','auto');
-poptab = [alfatab_pop;betotab_pop];
-poptab.area = arrayfun(@area_map, poptab.chan);
-for i = 1:size(poptab,1)
-    poptab.imgsize(i) = EStats_all.(poptab.Animal{i})(poptab.Expi(i)).evol.imgsize;
-    poptab.imgposX(i) = EStats_all.(poptab.Animal{i})(poptab.Expi(i)).evol.imgpos(1);
-    poptab.imgposY(i) = EStats_all.(poptab.Animal{i})(poptab.Expi(i)).evol.imgpos(2);
-end
+poptabdir = "O:\Manif_Fitting\popstats";
+poptab = readtable(fullfile(poptabdir,"Both_Exp_all_KentStat_bsl_pole.csv"),'Format','auto');
+drivertab = readtable(fullfile(tabdir,"Both_Exp_Driver_KentStat_bsl_pole.csv"),'Format','auto');
 % %% Creat masks for analysis
 validmsk = (poptab.unitnum>0) & ~((poptab.Animal=="Alfa") & (poptab.Expi==10));
 Alfamsk = (poptab.Animal=="Alfa");
@@ -84,16 +73,11 @@ Betomsk = (poptab.Animal=="Beto");
 V1msk = poptab.area == "V1";%(poptab.chan<=48 & poptab.chan>=33);
 V4msk = poptab.area == "V4";%(poptab.chan>48);
 ITmsk = poptab.area == "IT";%(poptab.chan<33);
-drivermsk = zeros(size(poptab,1),1,'logical'); % Masks of real driver units instead of using the first. 
-for i = 1:numel(drivermsk)
-    driver_unit = EStats_all.(poptab.Animal{i})(poptab.Expi(i)).evol.unit_in_pref_chan;
-    drivermsk(i) = (poptab.unitnum(i) == driver_unit) & (poptab.chan(i) == poptab.prefchan(i));
-end
+drivermsk = poptab.is_driver;
 prefchmsk = poptab.chan==poptab.prefchan;
 Fsigmsk = poptab.F_P<0.001;
 R2msk = poptab.R2>0.5;
 drivertab = poptab(drivermsk,:);
-writetable(drivertab,fullfile(tabdir,"Both_Exp_Driver_KentStat_bsl_pole.csv"))
 %% Get the normalized explained variance
 tab.normR2 = drivertab.R2 ./ tab.expvar;
 summarize_masks_print(tab, "normR2", msk_col, lab_col, {[]}, ["all"])
