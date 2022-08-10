@@ -8,9 +8,6 @@ tabdir = "O:\Manif_Fitting\popstats";
 Animal="Alfa"; 
 load(fullfile(mat_dir,Animal+"_ManifMapVarStats.mat"),'MapVarStats')
 load(fullfile(mat_dir,Animal+"_Manif_stats.mat"),'Stats')
-%%
-addpath D:\Github\Fit_Spherical_Tuning
-addpath e:\Github_Projects\Fit_Spherical_Tuning
 %% Fitting Kent function without a baseline parameter. 
 % pool = parpool(6);
 T00 = tic;

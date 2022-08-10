@@ -5,11 +5,7 @@ addpath analysis\libs\Kent_func
 %% Merge the stats for 2 monkeys 
 for Animal = ["Alfa", "Beto"]
 load(fullfile(mat_dir,Animal+"_ManifMapVarStats.mat"),'MapVarStats')
-load(fullfile(mat_dir,Animal+"_Manif_stats.mat"), 'Stats')
-load(fullfile(mat_dir, Animal+"_Evol_stats.mat"), 'EStats')
 MapVar_both.(Animal) = MapVarStats;
-Stats_both.(Animal) = Stats;
-EStats_both.(Animal) = EStats;
 end
 %% Load the population stats
 poptabdir = "O:\Manif_Fitting\popstats";
