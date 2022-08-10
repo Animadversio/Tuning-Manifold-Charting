@@ -1,15 +1,6 @@
 %% Manifold Paper Figure 4. Example Manifold tuning maps within different masks. 
 Animal="Both";Set_Path;
-addpath D:\Github\Fit_Spherical_Tuning
-addpath e:\Github_Projects\Fit_Spherical_Tuning
-% tabdir = "O:\Manif_Fitting\Kent_summary";
-% alfatab = readtable(fullfile(tabdir,"Alfa_Kstats.csv"));
-% betotab = readtable(fullfile(tabdir,"Beto_Kstats.csv"));
-% preftab = [];
-% Animal_tab = array2table(repmat("Alfa",size(alfatab,1),1),'VariableNames',{'Animal'});
-% preftab = [preftab; Animal_tab, alfatab];
-% Animal_tab = array2table(repmat("Beto",size(betotab,1),1),'VariableNames',{'Animal'});
-% preftab = [preftab; Animal_tab, betotab];
+addpath analysis\libs\Kent_func
 
 %% Merge the stats for 2 monkeys 
 for Animal = ["Alfa", "Beto"]
@@ -57,7 +48,7 @@ saveallform(sumdir, compose("TuneMapExample%03d.png",RND), h)
 Fsigmsk = poptab.F_P<1E-3;
 msks = {Fsigmsk&drivermsk&V1msk, Fsigmsk&drivermsk&V4msk, Fsigmsk&drivermsk&ITmsk};
 idxlist = [];
-for msk = msks
+for msk = msks % random sample channel x exp to plot 
 idx = randsample(find(msk{1}), 1);
 idxlist = [idxlist, idx];
 end
