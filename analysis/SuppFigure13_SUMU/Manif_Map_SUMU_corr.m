@@ -1,7 +1,8 @@
+%% Manifold Paper Supplementary Figure. Single unit, Multi unit correlation. Compared across areas
 % Separate script for calculating SU-MU tuning map similarity in more in
 % depth fashion.
-sumdir = "E:\OneDrive - Washington University in St. Louis\CortiDistCorr\summary";
-SUMUdir = "E:\OneDrive - Washington University in St. Louis\Manif_SUHash\summary";
+sumdir = "O:\CortiDistCorr\summary";
+SUMUdir = "O:\Manif_SUHash\summary";
 %% Load the tuning map similarity matrix 
 Animal = "Both";Set_Path;
 mat_dir = "O:\Mat_Statistics";
@@ -12,11 +13,11 @@ CortiDisCorr = [A.CortiDisCorr, B.CortiDisCorr];
 else
 load(fullfile(mat_dir, Animal+'_CortiDisCorr.mat'), 'CortiDisCorr') 
 end
-%% Collect pairs of SU MU correlation into 
 
+%% Collect pairs of SU MU correlation into 
 areacorrvec_col = {}; % nExp by 5 cell array, containing vectorized corr coef for all pairs
 SUMUcorrvec_col = {}; % nExp by 5 cell array, containing vectorized corr coef for SU-MU
-for Expi=1:numel(CortiDisCorr)
+for Expi=1:numel(CortiDisCorr) % 2 monkeys are included
 % Fmsk = struct2table(CortiDisCorr(1).FStats).F_P<1E-2;
 unit_num_arr = CortiDisCorr(Expi).units.unit_num_arr;
 spikeID = CortiDisCorr(Expi).units.spikeID;
@@ -62,10 +63,11 @@ diary off
 label_col = ["V1","V4","IT","all","all_same_array"];
 save(fullfile(sumdir,Animal+"SUMU_MapCorr_cmp.mat"), "SUMUcorrvec_col", "areacorrvec_col", "label_col");
 save(fullfile(matdir,Animal+"SUMU_MapCorr_cmp.mat"), "SUMUcorrvec_col", "areacorrvec_col", "label_col");
+
 %% Visualize and Summary
-%cat(1,SUMUcorrvec_col{:,1}), cat(1,areacorrvec_col{:,1})
 h=stripe_simple_plot({cat(1,SUMUcorrvec_col{:,5}), cat(1,areacorrvec_col{:,5})},...
         "corr",["SUMU","All other"], sumdir, "SUMU_bsl_cmp", "markeredgealpha", 0.2);
+%cat(1,SUMUcorrvec_col{:,1}), cat(1,areacorrvec_col{:,1})
 
 %%
 h=figure;set(h,'pos',[1000  412   484   555]);
@@ -77,6 +79,7 @@ label_arr = ["SU-MU A", "All A", "SU-MU B", "All B"];
 violinplot_cell(cc_col, label_arr,'showData',true)
 ylabel("Correlation")
 saveallform(sumdir,"SUMU_other_cmp_violin_scatter",h)
+
 %%
 h=figure;set(h,'pos',[1000  412   484   555]);
 violinplot_cell(cc_col, label_arr,'showData',false)
@@ -126,6 +129,8 @@ clf(h)
 violinplot_cell(cc_col, label_arr,'showData',false,'GroupOrder',cellstr(label_arr))
 ylabel("Correlation")
 saveallform(sumdir,"SUMU_other_area_sep_cmp_violin_pure",h)
+
+
 %%
 Expi = 11;
 unit_num_arr = CortiDisCorr(Expi).units.unit_num_arr;
@@ -152,6 +157,8 @@ pause
 end
 %%
 saveallform(SUMUdir, compose("SUMUpair_cmp_%s_Exp%02d_%s",Animal,Expi,strrep(num2str(pairs(rowi,:)),"  ","_")))
+
+
 function corrvec = get_submat_value(corrmat, msk, exclude_linidx)
 linidxmat = reshape(1:numel(corrmat),size(corrmat)); % matrix formed by linear index
 linidx_submat = linidxmat(msk,msk);
@@ -184,24 +191,5 @@ for i=1:numel(value_col)
     Yvec = cat(1,Yvec, reshape(value_col{i},[],1));
     labvec = cat(1, labvec, repmat(label_arr(i),numel(value_col{i}),1));
 end
-% Yvec = cat(1,SUMUcorrvec_col{1:46,5}, ...
-%              areacorrvec_col{1:46,5}, ...
-%              SUMUcorrvec_col{47:end,5}, ...
-%              areacorrvec_col{47:end,5});
-% labvec = cat(1,repmat("SU-MU A",numel(cat(1,SUMUcorrvec_col{1:46,5})),1),...
-%                repmat("All A",numel(cat(1,areacorrvec_col{1:46,5})),1),...
-%                repmat("SU-MU B",numel(cat(1,SUMUcorrvec_col{47:end,5})),1),...
-%                repmat("All B",numel(cat(1,areacorrvec_col{47:end,5})),1));
 violinplot(Yvec,labvec,varargin{:})
 end
-%% Obsolete plot
-% h=figure();set(h,'pos',[1000  412   400   600]);
-% vh = violin({cat(1,SUMUcorrvec_col{1:46,5}), ...
-%             cat(1,areacorrvec_col{1:46,5}), ...
-%             cat(1,SUMUcorrvec_col{47:end,5}), ...
-%             cat(1,areacorrvec_col{47:end,5})},'facealpha',0.4);
-% xticks(1:4); box off
-% xticklabels(["SU-MU A","All A","SU-MU B","All B"]);
-% ylabel("Correlation")
-% title(compose("Compare Tuning Map Similarity\n in SU-MU vs Other Pairs"))
-% saveallform(sumdir,"SUMU_other_cmp_violin",h)

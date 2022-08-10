@@ -1,5 +1,6 @@
-%% manifold paper Supplementary Figure, SU-MU comparison
-% Code to compare paired Single and Multi unit in the dataset.
+%% Manifold Paper Supplementary Figure. Single unit, Multi unit comparison. Compared across areas
+%  Compare all aspects of SU, MU. Kent fitting, Non parametrics, Corr, 
+%  Code to compare paired Single and Multi unit in the dataset.
 
 sumdir = "O:\CortiDistCorr\summary";
 SUMUdir = "O:\Manif_SUHash\summary";
@@ -11,12 +12,7 @@ Animal = "Both";Set_Path;
 nonpardir = "O:\Manif_NonParam\summary";
 NonParTab = readtable(fullfile(nonpardir,"Both"+"_Popul_NonParamWidth.csv"),'Format','auto');
 %% Load the Kent fitting data for the Population
-alfatab_pop = readtable(fullfile(popfitdir,"Alfa_Exp_all_KentStat_bsl_pole.csv"));
-betotab_pop = readtable(fullfile(popfitdir,"Beto_Exp_all_KentStat_bsl_pole.csv"));
-popfittab = [alfatab_pop;betotab_pop];
-clear alfatab_pop betotab_pop
 popfittab = readtable(fullfile(popfitdir,"Both_Exp_all_KentStat_bsl_pole.csv"),'Format','auto');
-
 %% Load the tuning map similarity matrix 
 Animal = "Both";Set_Path;
 mat_dir = "O:\Mat_Statistics";
@@ -162,6 +158,7 @@ xticklabels(["SU-MU A","All A","SU-MU B","All B"]);
 ylabel("Correlation")
 title(compose("Compare Tuning Map Similarity\n in SU-MU vs Other Pairs"))
 saveallform(sumdir,"SUMU_other_cmp_violin",h)
+
 %%
 h=figure;set(h,'pos',[1000  412   484   555]);
 cc_col = {cat(1,SUMUcorrvec_col{1:46,5}),...
@@ -198,21 +195,3 @@ pairs = pairs(valid_row,:);
 assert(all(validunit(valid_row,:),'all'),"the spike id doesn't match ")
 end
 end
-
-% function h = violinplot_cell(value_col, label_arr, varargin)
-% Yvec = [];
-% labvec = [];
-% for i=1:numel(value_col)
-%     Yvec = cat(1,Yvec, reshape(value_col{i},[],1));
-%     labvec = cat(1, labvec, repmat(label_arr(i),numel(value_col{i}),1));
-% end
-% % Yvec = cat(1,SUMUcorrvec_col{1:46,5}, ...
-% %              areacorrvec_col{1:46,5}, ...
-% %              SUMUcorrvec_col{47:end,5}, ...
-% %              areacorrvec_col{47:end,5});
-% % labvec = cat(1,repmat("SU-MU A",numel(cat(1,SUMUcorrvec_col{1:46,5})),1),...
-% %                repmat("All A",numel(cat(1,areacorrvec_col{1:46,5})),1),...
-% %                repmat("SU-MU B",numel(cat(1,SUMUcorrvec_col{47:end,5})),1),...
-% %                repmat("All B",numel(cat(1,areacorrvec_col{47:end,5})),1));
-% violinplot(Yvec,labvec,varargin{:})
-% end
