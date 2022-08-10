@@ -13,21 +13,15 @@ EStats_both.(Animal) = EStats;
 end
 %% Load the population stats
 poptabdir = "O:\Manif_Fitting\popstats";
-alfatab_pop = readtable(fullfile(poptabdir,"Alfa_Exp_all_KentStat.csv"));
-betotab_pop = readtable(fullfile(poptabdir,"Beto_Exp_all_KentStat.csv"));
-poptab = [alfatab_pop;betotab_pop];
+poptab = readtable(fullfile(poptabdir,"Both_Exp_all_KentStat_bsl_pole.csv"),'Format','auto');
 %% Create the masks and find the drivers 
 validmsk = (poptab.unitnum>0) & ~((poptab.Animal=="Alfa") & (poptab.Expi==10));
 Alfamsk = (poptab.Animal=="Alfa");
 Betomsk = (poptab.Animal=="Beto");
-V1msk = (poptab.chan<=48 & poptab.chan>=33);
-V4msk = (poptab.chan>48);
-ITmsk = (poptab.chan<33);
-drivermsk = zeros(size(poptab,1),1,'logical'); % Masks of real driver units instead of using the first. 
-for i = 1:numel(drivermsk)
-    driver_unit = EStats_both.(poptab.Animal{i})(poptab.Expi(i)).evol.unit_in_pref_chan;
-    drivermsk(i) = (poptab.unitnum(i) == driver_unit) & (poptab.chan(i) == poptab.prefchan(i));
-end
+V1msk = poptab.area == "V1";
+V4msk = poptab.area == "V4";
+ITmsk = poptab.area == "IT";
+drivermsk = poptab.is_driver;
 prefchmsk = poptab.chan==poptab.prefchan;
 Fsigmsk = poptab.F_P<1E-3;
 

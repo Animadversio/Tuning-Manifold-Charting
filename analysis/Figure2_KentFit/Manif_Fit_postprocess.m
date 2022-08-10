@@ -1,3 +1,5 @@
+%  Post processing after Fitting Kent function, add relavent info to the csv for better analysis.
+%% Transcribe other useful info from EStats to poptab. 
 mat_dir = "O:\Mat_Statistics";
 for Animal = ["Alfa", "Beto"]
 load(fullfile(mat_dir, Animal+"_Evol_stats.mat"), 'EStats')
