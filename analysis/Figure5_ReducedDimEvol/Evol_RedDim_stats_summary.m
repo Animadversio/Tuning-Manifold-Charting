@@ -8,7 +8,11 @@ ExpType = "RDEvol";
 Animal = "Both"; Set_Path;
 load(fullfile(figdir, Animal+"_RDEvol_summaryStats.mat"), "RDEvol_Stats")
 RDEvolTab = readtable(fullfile(figdir, Animal+"_RDEvol_trajcmp.csv"));
-
+%%
+A = load(fullfile(mat_dir, "Alfa"+"_RDEvol_stats.mat"), 'RDStats');
+B = load(fullfile(mat_dir, "Beto"+"_RDEvol_stats.mat"), 'RDStats');
+RDStats = [A.RDStats,B.RDStats];
+clear A B
 %% Create Masks for testing 
 validmsk = ones(numel(RDStats), 1, 'logical');
 for iTr=1:numel(RDStats)
@@ -17,15 +21,26 @@ validmsk(iTr) = false;
 end
 end
 % any thread succeeds vs both thread succeeds mask.
-anysucsmsk = any(RDEvolTab.t_p_succ<0.01,2);
-allsucsmsk = all(RDEvolTab.t_p_succ<0.01,2);
+anysucsmsk = any([RDEvolTab.t_p_succ_1<0.01, RDEvolTab.t_p_succ_2<0.01],2);
+allsucsmsk = all([RDEvolTab.t_p_succ_1<0.01, RDEvolTab.t_p_succ_2<0.01],2);
 
 Alfamsk = (RDEvolTab.Animal=="Alfa");
 Betomsk = (RDEvolTab.Animal=="Beto");
 V1msk = (RDEvolTab.pref_chan<=48 & RDEvolTab.pref_chan>=33);
 V4msk = (RDEvolTab.pref_chan>48);
 ITmsk = (RDEvolTab.pref_chan<33);
-
+%% Print out separations into each category
+msk = validmsk; 
+labels = ["Alfa","Beto","V1","V4","IT"];
+masks = {Alfamsk, Betomsk, V1msk, V4msk, ITmsk};
+fprintf("Experiments Break down\n",sum(masks{i}&msk),labels(i))
+for i = 1:numel(labels)
+    fprintf("%d valid experiments for %s\n",sum(masks{i}&msk),labels(i))
+end
+msk = validmsk&anysucsmsk; 
+for i = 1:numel(labels)
+    fprintf("%d valid and successful (any) experiments for %s\n",sum(masks{i}&msk),labels(i))
+end
 %% Test on individual Session and Collect T stats on population
 %% Test on the aggregated mean value at population level with a T test. 
 diary(fullfile(figdir,"progression_summary.log"))
